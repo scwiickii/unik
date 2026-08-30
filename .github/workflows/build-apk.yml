@@ -1,0 +1,31 @@
+name: Build APK
+
+# Запускается автоматически при пуше в main/master,
+# а также вручную кнопкой "Run workflow" во вкладке Actions.
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      # Готовое community-действие: ставит buildozer, Android SDK/NDK
+      # и собирает APK — избавляет от ручной настройки окружения.
+      - name: Build with buildozer
+        uses: ArtemSBulgakov/buildozer-action@v1
+        id: buildozer
+        with:
+          command: buildozer android debug
+          buildozer_version: stable
+
+      # Готовый APK будет доступен во вкладке Actions -> запуск -> Artifacts
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: uniqualizer-apk
+          path: ${{ steps.buildozer.outputs.filename }}
