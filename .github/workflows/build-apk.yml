@@ -11,7 +11,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-           - name: Checkout repo
+      - name: Checkout repo
         uses: actions/checkout@v4
 
       - name: Освободить место на диске
@@ -24,22 +24,21 @@ jobs:
           sudo docker image prune -af || true
           echo "=== Свободно на диске: ==="
           df -h /
-        uses: actions/checkout@v4
 
       # Официальный Docker-образ от команды Kivy — внутри уже стоит
-      # buildozer, Android SDK/NDK и все системные зависимости в нужных
-      # версиях. Это надёжнее сторонних action'ов, которые часто ломаются
+      # buildozer, Android SDK/NDK и все системные зависимости нужных
+      # версий. Это надёжнее строчек action'ов, которые часто ломаются
       # при обновлении Ubuntu на раннерах GitHub.
       # Монтируем репозиторий внутрь контейнера как /home/user/hostcwd —
-      # именно оттуда buildozer возьмёт main.py/buildozer.spec и туда же
+      # именно оттуда buildozer возьмёт main.py/buildozer.spec, и туда же
       # положит готовый APK (в подпапку bin/).
       - name: Build APK in kivy/buildozer container
         run: |
           docker run --rm \
-            -v "${{ github.workspace }}":/home/user/hostcwd \
-            kivy/buildozer android debug
+            -v ${{ github.workspace }}:/home/user/hostcwd/ \
+            kivy/buildozer:latest android debug
 
-      - name: Upload APK
+      - name: Загрузить APK
         uses: actions/upload-artifact@v4
         with:
           name: uniqualizer-apk
