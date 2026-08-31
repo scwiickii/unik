@@ -35,9 +35,12 @@ android.enable_androidx = True
 # "license is not accepted".
 android.accept_sdk_license = True
 
-# Подключаем готовую Android-библиотеку FFmpegKit через Gradle —
-# именно она умеет выполнять ffmpeg-команды внутри приложения.
-android.gradle_dependencies = com.arthenica:ffmpeg-kit-full:6.0-2
+# Подключаем готовую Android-библиотеку для запуска ffmpeg-команд.
+# Оригинальный com.arthenica:ffmpeg-kit-full был снят с Maven Central
+# автором в 2025 году (проект официально закрыт), поэтому используем
+# активно поддерживаемый community-форк с идентичным API
+# (в коде main.py классы называются так же: com.arthenica.ffmpegkit.*).
+android.gradle_dependencies = com.moizhassan.ffmpeg:ffmpeg-kit-16kb:6.1.1
 
 # Собираем только под 64-битные устройства — так значительно быстрее
 # идёт первая сборка. Если нужен armeabi-v7a — добавь через запятую.
