@@ -30,6 +30,11 @@ android.minapi = 23
 android.ndk = 25b
 android.enable_androidx = True
 
+# Без этого buildozer в неинтерактивном режиме (в CI) не может принять
+# лицензии Android SDK, и установка build-tools падает с ошибкой
+# "license is not accepted".
+android.accept_sdk_license = True
+
 # Подключаем готовую Android-библиотеку FFmpegKit через Gradle —
 # именно она умеет выполнять ffmpeg-команды внутри приложения.
 android.gradle_dependencies = com.arthenica:ffmpeg-kit-full:6.0-2
