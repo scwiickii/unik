@@ -11,8 +11,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repo
-            - name: Освободить место на диске
+           - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Освободить место на диске
         run: |
           sudo rm -rf /usr/local/lib/android || true
           sudo rm -rf /usr/share/dotnet || true
